@@ -13,6 +13,7 @@
 | 自動補全 | [blink.cmp](https://github.com/saghen/blink.cmp) + [friendly-snippets](https://github.com/rafamadriz/friendly-snippets) | 補全與 snippet |
 | 模糊搜尋 | [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) + [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) | 檔案 / 內容 / 符號搜尋 |
 | 語法高亮 | [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | 語法解析與高亮（`main` 分支） |
+| Git | [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) | 在左側標記欄顯示 Git 增/改/刪狀態 |
 
 外掛版本皆由 `lazy-lock.json` 鎖定，確保跨環境安裝到相同的 commit。
 
@@ -137,6 +138,7 @@ nvim
 │   └── plugins               # 每個外掛一個檔案，lazy.nvim 自動載入整個資料夾
 │       ├── colorscheme.lua
 │       ├── completion.lua
+│       ├── git.lua
 │       ├── lsp.lua
 │       ├── telescope.lua
 │       └── treesitter.lua
@@ -179,6 +181,18 @@ Leader 鍵為 **空白鍵（Space）**。以下為預設按鍵：
 - 搜尋：`ignorecase` + `smartcase`
 - 啟用滑鼠、`termguicolors`
 - 系統剪貼簿整合（`clipboard = unnamedplus`）
+
+### Git 標記（`lua/plugins/gitsigns` → `lua/plugins/git.lua`）
+在 git 專案內編輯檔案時，左側標記欄會即時顯示每一行的 Git 狀態（使用預設設定）：
+
+| 符號 | 意義 |
+| --- | --- |
+| `│` | 新增 / 修改的行 |
+| `_` `‾` | 刪除的行 |
+| `~` | 修改後又刪除 |
+| `┆` | 未追蹤的檔案 |
+
+> 需系統已安裝 `git`（已列於系統需求），且檔案位於 git 儲存庫內才會顯示。
 
 ## 自訂與擴充
 
