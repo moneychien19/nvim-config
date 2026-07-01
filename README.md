@@ -23,6 +23,7 @@
 | **Neovim ≥ 0.11**（建議 0.12+） | 設定使用 `vim.lsp.enable()` 與 treesitter `main` 分支等新 API | 舊版無法運作 |
 | **git** | 下載外掛 | 必要 |
 | **C 編譯器**（gcc / clang） | 編譯 treesitter parser | 必要 |
+| **tree-sitter CLI**（`tree-sitter`） | nvim-treesitter `main` 分支用它建置 parser | **必要**（否則 parser 無法安裝） |
 | **ripgrep**（`rg`） | Telescope `live_grep` 內容搜尋 | 建議安裝 |
 | **fd**（`fd` / `fdfind`） | Telescope `find_files` 加速 | 選用 |
 | **clangd** | 預設的 C/C++ 語言伺服器 | 需要 LSP 才需安裝 |
@@ -32,22 +33,50 @@
 
 **macOS（Homebrew）**
 ```sh
-brew install neovim git ripgrep fd llvm
+brew install neovim git tree-sitter ripgrep fd llvm
 # clangd 隨 llvm 一起提供；C 編譯器可用系統內建 clang
 ```
 
 **Ubuntu / Debian**
 ```sh
 sudo apt install neovim git ripgrep fd-find build-essential clangd
+# tree-sitter CLI 通常不在套件庫，改用下方任一方式安裝
 # 注意：Debian/Ubuntu 套件庫的 neovim 可能過舊，建議改用官方 AppImage 或 PPA 取得 0.11+
 ```
 
 **Arch Linux**
 ```sh
-sudo pacman -S neovim git ripgrep fd base-devel clang
+sudo pacman -S neovim git tree-sitter-cli ripgrep fd base-devel clang
+```
+
+**tree-sitter CLI（若套件庫沒有）**
+```sh
+# 方式一：cargo
+cargo install tree-sitter-cli
+# 方式二：npm
+npm install -g tree-sitter-cli
+# 方式三：直接下載對應版本的預編譯 binary（見下方「受限環境」）
 ```
 
 > Nerd Font 請至 [nerdfonts.com](https://www.nerdfonts.com/) 下載並在你的終端機設定為顯示字型。
+
+### 受限環境安裝（無 sudo / 共用主機，例如學校 server）
+
+在沒有 root 權限、無法用套件管理器的機器上，把所有工具裝到家目錄的 `~/.local/bin`（確認它在 `PATH` 中），
+下載官方預編譯 binary 即可。要點：
+
+- **Neovim 要下載「完整」release**（含 `share/nvim/runtime`），不能只複製執行檔，否則會出現
+  `module 'vim.uri' not found` / 找不到 `syntax.vim` 而無法啟動。建議解壓整包後把 `bin/nvim` 連結進 `~/.local/bin`：
+  ```sh
+  curl -fsSL -o /tmp/nvim.tar.gz \
+    https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz
+  tar -C ~/.local -xzf /tmp/nvim.tar.gz && mv ~/.local/nvim-linux-x86_64 ~/.local/nvim
+  ln -sf ~/.local/nvim/bin/nvim ~/.local/bin/nvim
+  ```
+- **glibc 相容性**：舊系統（如 Ubuntu 22.04 = glibc 2.35）跑不動用新 glibc 編譯的最新 binary
+  （會出現 `GLIBC_2.39 not found`）。此時挑**較舊的版本**，或選 **musl 靜態版**（ripgrep 有提供）。
+  實測可用組合：`tree-sitter 0.25.8`、`ripgrep 14.1.1`（musl）、`clangd 18.1.3`。
+- tree-sitter / ripgrep / clangd 皆可從各自的 GitHub Releases 下載單一 binary，`chmod +x` 後放進 `~/.local/bin`。
 
 ## 安裝步驟
 
@@ -190,7 +219,10 @@ end,
 
 - **啟動時出現 `lazy.nvim not found`**：尚未完成上面「步驟 3」手動安裝 lazy.nvim。
 - **Neovim 版本過舊 / 出現 API 錯誤**：本設定需 Neovim 0.11 以上，請升級。
+- **啟動出現 `module 'vim.uri' not found` / 找不到 `syntax.vim`**：Neovim 執行檔缺 runtime，請安裝「完整」release（見「受限環境安裝」）。
 - **Treesitter 編譯失敗**：確認已安裝 C 編譯器（gcc 或 clang）。
+- **Treesitter 出現 `no such file or directory (cmd): 'tree-sitter'`**：未安裝 tree-sitter CLI（`main` 分支必需），見上方安裝說明。
+- **binary 出現 `GLIBC_2.xx not found`**：系統 glibc 太舊，改裝較舊版本或 musl 靜態版的該工具。
 - **`<leader>fg` 沒有結果**：確認已安裝 `ripgrep`（`rg`）。
 - **補全選單圖示為方框/亂碼**：終端機未使用 Nerd Font。
 - **LSP 沒有作用**：確認對應的語言伺服器（如 `clangd`）已安裝並在 PATH 中，可用 `:checkhealth lsp` 檢查。
