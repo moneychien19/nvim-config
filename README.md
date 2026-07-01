@@ -64,7 +64,7 @@ mv ~/.cache/nvim       ~/.cache/nvim.bak       2>/dev/null || true
 ### 2. 取得這份設定
 
 ```sh
-git clone <this-repo-url> ~/.config/nvim
+git clone https://github.com/moneychien19/nvim-config.git ~/.config/nvim
 ```
 
 ### 3. 手動安裝 lazy.nvim（重要）
