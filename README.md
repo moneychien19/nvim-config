@@ -154,36 +154,7 @@ nvim
 
 ## 主要設定
 
-Leader 鍵為 **空白鍵（Space）**。以下為預設按鍵：
-
-### 一般
-| 按鍵 | 功能 |
-| --- | --- |
-| `<leader>w` | 儲存檔案 |
-| `<leader>q` | 關閉視窗 |
-| `<leader>f` | 格式化目前檔案（conform，LSP fallback） |
-| `<C-/>` | 切換底部終端機（一般模式與終端機模式皆可） |
-
-### Telescope 搜尋
-| 按鍵 | 功能 |
-| --- | --- |
-| `<leader>ff` | 搜尋檔案 |
-| `<leader>fg` | 內容搜尋（live grep，需 ripgrep） |
-| `<leader>fb` | 搜尋 buffer |
-| `<leader>fh` | 搜尋說明文件 |
-
-### LSP
-| 按鍵 | 功能 |
-| --- | --- |
-| `gd` | 跳到定義 |
-| `gr` | 尋找參照 |
-| `gi` | 跳到實作 |
-| `K` | 顯示懸浮說明 |
-| `<leader>rn` | 重新命名符號 |
-| `<leader>ca` | Code action |
-| `<leader>d` | 顯示該行診斷 |
-| `<leader>ds` | 文件內符號 |
-| `<leader>ws` | 工作區符號 |
+Leader 鍵為 **空白鍵（Space）**。按鍵不在此逐一列出——本設定已安裝 [which-key.nvim](https://github.com/folke/which-key.nvim)，按下 leader（或其他前綴鍵）稍作停頓即會彈出所有可用按鍵與功能。實際的按鍵定義請見 `lua/keymaps/`。
 
 ### 編輯器選項（`lua/config/options.lua`）
 - 顯示絕對與相對行號
