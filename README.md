@@ -16,6 +16,7 @@
 | Git | [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) | 在左側標記欄顯示 Git 增/改/刪狀態 |
 | 格式化 | [conform.nvim](https://github.com/stevearc/conform.nvim) | 程式碼格式化（C/C++ 使用 `clang-format`） |
 | 終端機 | 內建 | 可切換的底部浮動終端機（`<C-/>`） |
+| 按鍵提示 | [which-key.nvim](https://github.com/folke/which-key.nvim) | 按下 leader 等前綴鍵時彈出可用按鍵提示 |
 
 外掛版本皆由 `lazy-lock.json` 鎖定，確保跨環境安裝到相同的 commit。
 
@@ -147,7 +148,8 @@ nvim
 │       ├── git.lua
 │       ├── lsp.lua
 │       ├── telescope.lua
-│       └── treesitter.lua
+│       ├── treesitter.lua
+│       └── which-key.lua
 ```
 
 ## 主要設定
@@ -214,6 +216,9 @@ Leader 鍵為 **空白鍵（Space）**。以下為預設按鍵：
 - 第一次開啟會在底部 `botright 15split` 建立終端機並自動進入插入模式。
 - 再按一次即關閉終端機視窗，但保留該 terminal buffer。
 - 之後再開啟時會重用同一個 terminal buffer，維持先前的工作階段。
+
+### 按鍵提示（`lua/plugins/which-key.lua`）
+使用 [which-key.nvim](https://github.com/folke/which-key.nvim)，按下前綴鍵（如 leader 空白鍵）後短暫停頓，會彈出視窗列出接下來可用的按鍵與功能，不必特意記憶。目前使用 `modern` preset，延遲 `200` 毫秒（`delay = 200`）。
 
 ## 自訂與擴充
 
