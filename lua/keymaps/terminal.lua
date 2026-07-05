@@ -24,3 +24,6 @@ end
 vim.keymap.set({ "n", "t" }, "<C-/>", toggle_terminal, {
     desc = "Toggle terminal",
 })
+vim.keymap.set({ "n", "t" }, "<leader>tt", toggle_terminal, {
+    desc = "Toggle terminal",
+})

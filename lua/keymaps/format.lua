@@ -1,4 +1,4 @@
-vim.keymap.set("n", "<leader>f", function()
+vim.keymap.set("n", "<leader>cf", function()
     require("conform").format({
         async = true,
         lsp_format = "fallback",
