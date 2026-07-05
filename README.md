@@ -14,6 +14,8 @@
 | 模糊搜尋 | [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) + [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) | 檔案 / 內容 / 符號搜尋 |
 | 語法高亮 | [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | 語法解析與高亮（`main` 分支） |
 | Git | [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) | 在左側標記欄顯示 Git 增/改/刪狀態 |
+| 格式化 | [conform.nvim](https://github.com/stevearc/conform.nvim) | 程式碼格式化（C/C++ 使用 `clang-format`） |
+| 終端機 | 內建 | 可切換的底部浮動終端機（`<C-/>`） |
 
 外掛版本皆由 `lazy-lock.json` 鎖定，確保跨環境安裝到相同的 commit。
 
@@ -28,6 +30,7 @@
 | **ripgrep**（`rg`） | Telescope `live_grep` 內容搜尋 | 建議安裝 |
 | **fd**（`fd` / `fdfind`） | Telescope `find_files` 加速 | 選用 |
 | **clangd** | 預設的 C/C++ 語言伺服器 | 需要 LSP 才需安裝 |
+| **clang-format** | conform.nvim 格式化 C/C++ 用 | 需要格式化才需安裝（通常隨 llvm / clang 提供） |
 | **Nerd Font** | 補全選單圖示（`nerd_font_variant = "mono"`） | 建議，需在終端機設定字型 |
 
 ### 依平台安裝需求（範例）
@@ -134,10 +137,13 @@ nvim
 │   ├── keymaps
 │   │   ├── general.lua       # 一般按鍵（存檔、離開）
 │   │   ├── lsp.lua           # LSP 相關按鍵
-│   │   └── telescope.lua     # Telescope 搜尋按鍵
+│   │   ├── telescope.lua     # Telescope 搜尋按鍵
+│   │   ├── format.lua        # 格式化按鍵（conform.nvim）
+│   │   └── terminal.lua      # 終端機切換按鍵與邏輯
 │   └── plugins               # 每個外掛一個檔案，lazy.nvim 自動載入整個資料夾
 │       ├── colorscheme.lua
 │       ├── completion.lua
+│       ├── conform.lua
 │       ├── git.lua
 │       ├── lsp.lua
 │       ├── telescope.lua
@@ -153,6 +159,8 @@ Leader 鍵為 **空白鍵（Space）**。以下為預設按鍵：
 | --- | --- |
 | `<leader>w` | 儲存檔案 |
 | `<leader>q` | 關閉視窗 |
+| `<leader>f` | 格式化目前檔案（conform，LSP fallback） |
+| `<C-/>` | 切換底部終端機（一般模式與終端機模式皆可） |
 
 ### Telescope 搜尋
 | 按鍵 | 功能 |
@@ -193,6 +201,19 @@ Leader 鍵為 **空白鍵（Space）**。以下為預設按鍵：
 | `┆` | 未追蹤的檔案 |
 
 > 需系統已安裝 `git`（已列於系統需求），且檔案位於 git 儲存庫內才會顯示。
+
+### 格式化（`lua/plugins/conform.lua` + `lua/keymaps/format.lua`）
+使用 [conform.nvim](https://github.com/stevearc/conform.nvim) 做程式碼格式化，目前設定 C/C++ 使用 `clang-format`。
+按 `<leader>f` 會非同步格式化目前檔案；若該檔案類型沒有設定對應的 formatter，會退回使用 LSP 格式化（`lsp_format = "fallback"`）。
+
+> 需系統已安裝 `clang-format`（已列於系統需求）。要新增其他語言，於 `formatters_by_ft` 加入對應的 formatter 即可。
+
+### 終端機切換（`lua/keymaps/terminal.lua`）
+按 `<C-/>` 可在編輯畫面底部開關一個高度 15 的終端機視窗（一般模式與終端機模式皆可觸發）：
+
+- 第一次開啟會在底部 `botright 15split` 建立終端機並自動進入插入模式。
+- 再按一次即關閉終端機視窗，但保留該 terminal buffer。
+- 之後再開啟時會重用同一個 terminal buffer，維持先前的工作階段。
 
 ## 自訂與擴充
 
