@@ -8,7 +8,7 @@
 | 類別 | 外掛 | 說明 |
 | --- | --- | --- |
 | 外掛管理 | [lazy.nvim](https://github.com/folke/lazy.nvim) | 外掛安裝與版本鎖定 |
-| 主題 | [onedark.nvim](https://github.com/navarasu/onedark.nvim) | OneDark（`light` 風格） |
+| 主題 | [onenord.nvim](https://github.com/rmehri01/onenord.nvim) | OneNord（`light` 主題） |
 | LSP | [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) | 語言伺服器（預設啟用 `clangd`） |
 | 自動補全 | [blink.cmp](https://github.com/saghen/blink.cmp) + [friendly-snippets](https://github.com/rafamadriz/friendly-snippets) | 補全與 snippet |
 | 模糊搜尋 | [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) + [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) | 檔案 / 內容 / 符號搜尋 |

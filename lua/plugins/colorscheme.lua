@@ -1,13 +1,13 @@
 return {
     {
-        "navarasu/onedark.nvim",
+        "rmehri01/onenord.nvim",
         priority = 1000,
         config = function()
-            require("onedark").setup({
-                style = "light",
+            require("onenord").setup({
+                theme = "light",
             })
 
-            require("onedark").load()
+            require("onenord").load()
         end,
     },
 }
