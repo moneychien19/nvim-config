@@ -15,9 +15,16 @@ return {
         build = ":TSUpdate",
 
         config = function()
-            require("nvim-treesitter").setup({})
+            local ts = require("nvim-treesitter")
+            ts.setup({})
 
-            require("nvim-treesitter").install(parsers)
+            local installed = ts.get_installed()
+            local to_install = vim.tbl_filter(function(p)
+                return not vim.tbl_contains(installed, p)
+            end, parsers)
+            if #to_install > 0 then
+                ts.install(to_install)
+            end
 
             vim.api.nvim_create_autocmd("FileType", {
                 callback = function(args)
